@@ -1,6 +1,7 @@
 const express=require('express');
 const  connection  = require('./config/db');
-const {userRoute}=require('./Routes/user.route')
+const {userRoute}=require('./Routes/user.route');
+const { categoryRoute } = require('./Routes/category.route');
 require('dotenv').config()
 const app=express()
 
@@ -11,6 +12,7 @@ app.get('/',(req,res)=>{
     res.status(200).send("hello")
 })
 app.use("/user",userRoute);
+app.use("/category",categoryRoute);
 
 
 
