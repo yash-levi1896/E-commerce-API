@@ -1,5 +1,6 @@
 const express=require('express');
 const { UserModel } = require('../Models/user.model');
+const {BlacklistModel} = require('../Models/blacklisting.model')
 const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken');
 const userRoute=express.Router();
@@ -46,7 +47,9 @@ userRoute.post("/login",async(req,res)=>{
                     throw err;
                     if(result){
                         // response if email and password are right.
-                        res.status(200).send({msg:"sucessfully Login!","token":jwt.sign({'userID':user[0]._id},'masai')})  
+                        const token=jwt.sign({'userID':user[0]._id},'masai')   // created a jwt token
+                        res.cookie("accessToken",token,{maxAge:1000*60,httpOnly:true,secure:false})  // setting token into the cookie
+                        res.status(200).send({msg:"sucessfully Login!"})  
                     }else{
                         res.status(401).send({msg:"Wrong credentials"})
                     }
@@ -65,8 +68,14 @@ userRoute.post("/login",async(req,res)=>{
     
 })
 
-
-
+userRoute.get("/logout",async(req,res)=>{
+    const {accessToken}=req.cookies;
+    const blacktoken=await new BlacklistModel({token:accessToken})
+    
+    blacktoken.save();
+    
+    res.status(200).send({msg:"logout successfull!"})
+})
 
 
 
