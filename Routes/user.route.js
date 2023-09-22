@@ -48,7 +48,7 @@ userRoute.post("/login",async(req,res)=>{
                     if(result){
                         // response if email and password are right.
                         const token=jwt.sign({'userID':user[0]._id},'masai')   // created a jwt token
-                        res.cookie("accessToken",token,{maxAge:1000*60,httpOnly:true,secure:false})  // setting token into the cookie
+                        res.cookie("accessToken",token,{maxAge:1000*60*60,httpOnly:true,secure:false}) // setting token into the cookie with expire of 1hr
                         res.status(200).send({msg:"sucessfully Login!"})  
                     }else{
                         res.status(401).send({msg:"Wrong credentials"})
