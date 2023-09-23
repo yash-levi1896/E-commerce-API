@@ -29,8 +29,13 @@ const options={
         },
         servers:[
             {
-                url:["https://localhost:3000/","https://companyassignment-83od.onrender.com/"]
-            }
+                url: `http://localhost:${process.env.PORT}`,
+                description: "Local development server",
+              },
+              {
+                url: "https://companyassignment-83od.onrender.com",
+                description: "Deployed server",
+              },
         ]
     },
     apis:["./Routes/*.js"]

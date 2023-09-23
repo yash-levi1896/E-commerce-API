@@ -106,3 +106,8 @@ This backend API provides the following functionality:
 - **POST /order/placeorder**:  Place order on the basis of the cart items.
 - **GET /order/orderhistory**: Get the order history for the particular user.
 - **GET /order/orderdetail/:orderid**: Get the specific order by orderid.
+
+
+### API documentation
+
+-https://companyassignment-83od.onrender.com/documentation/
