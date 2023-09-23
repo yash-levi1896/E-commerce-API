@@ -16,6 +16,10 @@ const app=express()
 app.use(express.json())
 app.use(cookieParser())
 
+app.get("/",(req,res)=>{
+    res.send("This is Home Page for E-Commerce application")
+})
+
 const options={
     definition:{
         openapi:"3.0.0",
@@ -25,7 +29,7 @@ const options={
         },
         servers:[
             {
-                url:"https://localhost:3000/"
+                url:["https://localhost:3000/","https://companyassignment-83od.onrender.com/"]
             }
         ]
     },

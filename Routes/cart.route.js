@@ -144,7 +144,7 @@ cartRoute.get("/getcartitem",async(req,res)=>{
  *   patch:
  *     tags:
  *       - Cart
- *     summary: Increase quantity
+ *     summary: Increase quantity by one
  *     description: Increase the quantity of an item in the cart by providing the item ID in the URL.
  *     parameters:
  *       - in: path
@@ -187,7 +187,7 @@ cartRoute.patch("/increasequantity/:itemid",async(req,res)=>{
  *   patch:
  *     tags:
  *       - Cart
- *     summary: Decrease quantity
+ *     summary: Decrease quantity by one
  *     description: Decrease the quantity of an item in the cart by one, providing the item ID in the URL.
  *     parameters:
  *       - in: path
