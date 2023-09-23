@@ -11,18 +11,20 @@ productRoute.post("/addproduct",async(req,res)=>{
        // Validate that all required fields are present
         if (!title || !price || !description || Availability === undefined || !categoryName) {
           res.status(400).json({ msg: 'All required fields must be provided' });
-         }
+         }else{
 
        const data=await CategoryModel.find({name:categoryName});
 
         // Check if the category exists
          if (data.length === 0) {
           res.status(404).json({ msg: 'Category not found' });
-         }
+         }else{
          // creating instance with given data through ProductModel
        const newproduct = await new ProductModel({title,price,description,Availability,categoryID:data[0]._id});
        newproduct.save() // saving the product instance into db
        res.status(201).send({msg:"Product added!"})
+         }
+      }
     } catch (error) {
      
     // Handle other errors
