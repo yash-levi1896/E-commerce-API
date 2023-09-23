@@ -35,7 +35,7 @@ Before setting up the project, ensure you have the following dependencies instal
 2. Navigate to the project directory:
 
    ```bash
-   cd E-COMMERCE-API
+   cd E-commerce-API
 
 
 3. Install dependencies:
