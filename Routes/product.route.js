@@ -46,7 +46,7 @@ productRoute.get('/getproduct/:Id',async(req,res)=>{
 })
 
 
-// get product through productID
+// get product details through productID
 
 productRoute.get('/getproductbyid/:productId',async(req,res)=>{
     const {productId}=req.params  // extracting productId from url params
