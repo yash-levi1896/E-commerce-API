@@ -4,6 +4,49 @@ const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken');
 const userRoute=express.Router();
 
+
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     userSchema:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *         password:
+ *           type: string
+ *         Name:
+ *           type: string
+ */
+
+/**
+ * @swagger
+ * /user/register:
+ *   post:
+ *     tags:
+ *       - User
+ *     summary: Register a new user
+ *     description: Register a new user with an email, password, and Name.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/userSchema'
+ *     responses:
+ *       201:
+ *         description: User registered successfully.
+ *       400:
+ *         description: Bad request. All fields (email, password, and Name) are required.
+ *       409:
+ *         description: Conflict. User with the same email already exists.
+ *       500:
+ *         description: Internal server error. Unable to register the user.
+ */
+
+
 userRoute.post("/register",async(req,res)=>{
     const {email,password,Name}=req.body;  
     const user=await UserModel.find({email});  //finding wether user with given email exist or not
@@ -31,6 +74,36 @@ userRoute.post("/register",async(req,res)=>{
         res.status(400).send({msg:'All fileds are required i.e Name,email and password'})  // response if any field is missing. 
     }  
 })
+
+/**
+ * @swagger
+ * /user/login:
+ *   post:
+ *     tags:
+ *       - User
+ *     summary: User login
+ *     description: Authenticate a user with their email and password.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login successful. Returns an access token in the response cookie.
+ *       400:
+ *         description: Bad request. Both email and password are required for login.
+ *       401:
+ *         description: Unauthorized. Wrong credentials or user not registered.
+ *       500:
+ *         description: Internal server error.
+ */
 
 userRoute.post("/login",async(req,res)=>{
     const {email,password}=req.body;
@@ -66,6 +139,19 @@ userRoute.post("/login",async(req,res)=>{
     }
     
 })
+
+/**
+ * @swagger
+ * /user/logout:
+ *   get:
+ *     tags:
+ *       - User
+ *     summary: User logout
+ *     description: Clear the access token cookie to log the user out.
+ *     responses:
+ *       200:
+ *         description: Logout successful. Clears the access token cookie.
+ */
 
 userRoute.get("/logout",async(req,res)=>{
 

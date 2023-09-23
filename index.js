@@ -7,16 +7,42 @@ const { productRoute } = require('./Routes/product.route');
 const {authentication} = require('./Middleware/authentication');
 const { cartRoute } = require('./Routes/cart.route');
 const { orderRoute } = require('./Routes/order.route');
+const swaggerUI = require("swagger-ui-express");
+const swaggerJSdoc=require("swagger-jsdoc")
+
 require('dotenv').config()
 const app=express()
 
 app.use(express.json())
 app.use(cookieParser())
 
+const options={
+    definition:{
+        openapi:"3.0.0",
+        info:{
+            title:"E-commerce API",
+            version:"1.0.0"
+        },
+        servers:[
+            {
+                url:"https://localhost:3000/"
+            }
+        ]
+    },
+    apis:["./Routes/*.js"]
+}
+
+const swaggerSpec = swaggerJSdoc(options)
+app.use("/documentation", swaggerUI.serve, swaggerUI.setup(swaggerSpec))
+
+
+
 app.use("/user",userRoute);
 app.use("/category",categoryRoute);
 app.use("/product",productRoute);
+
 app.use(authentication);
+
 app.use("/cart",cartRoute)
 app.use("/order",orderRoute)
 

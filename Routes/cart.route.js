@@ -3,7 +3,72 @@ const {CartModel}=require('../Models/cart.model');
 const { ProductModel } = require('../Models/product.model');
 const cartRoute=express.Router();
 
-// add procut to the cart
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     cartSchema:
+ *       type: object
+ *       properties:
+ *         _id:
+ *           type: string
+ *           description: The unique identifier for the cart item.
+ *         name:
+ *           type: string
+ *           description: The name of the product in the cart.
+ *         price:
+ *           type: number
+ *           format: double
+ *           description: The price of the product in the cart.
+ *         quantity:
+ *           type: integer
+ *           description: The quantity of the product in the cart.
+ *         userID: 
+ *           type: string
+ *         productID:
+ *           type: string
+ *       required:
+ *         - _id
+ *         - name
+ *         - price
+ *         - quantity
+ */
+
+/**
+ * @swagger
+ * /cart/addtocart/{productId}:
+ *   post:
+ *     tags:
+ *       - Cart
+ *     summary: Add a product to the cart
+ *     description: Add a product to the cart by providing the product ID in the URL.
+ *     parameters:
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userID:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Product added to the cart successfully.
+ *       200:
+ *         description: Product is already in the cart.
+ *       404:
+ *         description: Product is not available.
+ *       500:
+ *         description: Internal server error.
+ */
+
+// add product to the cart
 cartRoute.post("/addtocart/:productId",async(req,res)=>{
     const {productId} = req.params // extracting productId from url params
     try {
@@ -40,6 +105,21 @@ cartRoute.post("/addtocart/:productId",async(req,res)=>{
     }
 })
 
+/**
+ * @swagger
+ * /cart/getcartitem:
+ *   get:
+ *     tags:
+ *       - Cart
+ *     summary: Get cart items
+ *     description: Retrieve all cart items for an authenticated user.
+ *     responses:
+ *       200:
+ *         description: Cart items retrieved successfully or Your cart is empty. Please add items!
+ *       500:
+ *         description: Internal server error.
+ */
+
 // get all the cart item for the authenticated user
 cartRoute.get("/getcartitem",async(req,res)=>{
     try {
@@ -57,6 +137,27 @@ cartRoute.get("/getcartitem",async(req,res)=>{
         res.status(500).send({msg:error.message})  // capturing the error
     }
 })
+
+/**
+ * @swagger
+ * /cart/increasequantity/{itemid}:
+ *   patch:
+ *     tags:
+ *       - Cart
+ *     summary: Increase quantity
+ *     description: Increase the quantity of an item in the cart by providing the item ID in the URL.
+ *     parameters:
+ *       - in: path
+ *         name: itemid
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Quantity value increased by one.
+ *       500:
+ *         description: Internal server error.
+ */
 
 // increase the quantity by one in the cart
 cartRoute.patch("/increasequantity/:itemid",async(req,res)=>{
@@ -80,6 +181,29 @@ cartRoute.patch("/increasequantity/:itemid",async(req,res)=>{
     }
 })
 
+/**
+ * @swagger
+ * /cart/decreasequantity/{itemid}:
+ *   patch:
+ *     tags:
+ *       - Cart
+ *     summary: Decrease quantity
+ *     description: Decrease the quantity of an item in the cart by one, providing the item ID in the URL.
+ *     parameters:
+ *       - in: path
+ *         name: itemid
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Quantity value decreased by one.
+ *       422:
+ *         description: Quantity can't be less than one.
+ *       500:
+ *         description: Internal server error.
+ */
+
 // decrease the quantity by one in the cart
 cartRoute.patch("/decreasequantity/:itemid",async(req,res)=>{
     try {
@@ -100,6 +224,27 @@ cartRoute.patch("/decreasequantity/:itemid",async(req,res)=>{
         res.status(500).send({msg:error.message})  // capturing the error
     }
 })
+
+/**
+ * @swagger
+ * /cart/removeitem/{itemid}:
+ *   delete:
+ *     tags:
+ *       - Cart
+ *     summary: Remove item from cart
+ *     description: Remove an item from the cart by providing the item ID in the URL.
+ *     parameters:
+ *       - in: path
+ *         name: itemid
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Item removed from the cart.
+ *       500:
+ *         description: Internal server error.
+ */
 
 // remove the item from the cart
 cartRoute.delete("/removeitem/:itemid",async(req,res)=>{

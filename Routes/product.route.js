@@ -4,6 +4,63 @@ const { CategoryModel } = require('../Models/category.model');
 const productRoute=express.Router();
 
 
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     productSchema:
+ *       type: object
+ *       properties:
+ *         title:
+ *           type: string
+ *         price:
+ *           type: Number
+ *         description:
+ *           type: string
+ *         Availability:
+ *           type: Boolean
+ *         categoryID:
+ *           type: string
+ */
+
+/**
+ * @swagger
+ * /product/addproduct:
+ *   post:
+ *     tags:
+ *       - Product
+ *     summary: Add a new product
+ *     description: Add a new product with title, price, description, availability, and category.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               description:
+ *                 type: string
+ *               Availability:
+ *                 type: boolean
+ *               categoryName:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Product added successfully.
+ *       400:
+ *         description: Bad request. All required fields must be provided.
+ *       404:
+ *         description: Category not found.
+ *       500:
+ *         description: Internal server error.
+ */
+
+
 // add product into your database
 productRoute.post("/addproduct",async(req,res)=>{
     const {title,price,description,Availability,categoryName}=req.body
@@ -34,6 +91,28 @@ productRoute.post("/addproduct",async(req,res)=>{
     
 })
 
+/**
+ * @swagger
+ * /product/getproduct/{Id}:
+ *   get:
+ *     tags:
+ *       - Product
+ *     summary: Get products by category
+ *     description: Retrieve products based on the provided category ID.
+ *     parameters:
+ *       - in: path
+ *         name: Id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Products retrieved successfully.
+ *       400:
+ *         description: Bad request. An error occurred while fetching products.
+ */
+
+
 //get product through categoryId
 
 productRoute.get('/getproduct/:Id',async(req,res)=>{
@@ -45,6 +124,26 @@ productRoute.get('/getproduct/:Id',async(req,res)=>{
      }
 })
 
+/**
+ * @swagger
+ * /product/getproductbyid/{productId}:
+ *   get:
+ *     tags:
+ *       - Product
+ *     summary: Get product details by ID
+ *     description: Retrieve detailed information about a specific product based on its ID.
+ *     parameters:
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Product details retrieved successfully.
+ *       400:
+ *         description: Bad request. An error occurred while fetching product details.
+ */
 
 // get product details through productID
 
@@ -57,6 +156,21 @@ productRoute.get('/getproductbyid/:productId',async(req,res)=>{
        res.status(400).send({msg:error.message}); // capturing the server error
     }
 })
+
+/**
+ * @swagger
+ * /product/getproduct:
+ *   get:
+ *     tags:
+ *       - Product
+ *     summary: Get all products
+ *     description: Retrieve a list of all products available in the database.
+ *     responses:
+ *       200:
+ *         description: Products retrieved successfully.
+ *       400:
+ *         description: Bad request. An error occurred while fetching products.
+ */
 
 // get all the product that are present in the database.
 
