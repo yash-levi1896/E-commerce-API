@@ -69,10 +69,9 @@ userRoute.post("/login",async(req,res)=>{
 })
 
 userRoute.get("/logout",async(req,res)=>{
-    const {accessToken}=req.cookies;
-    const blacktoken=await new BlacklistModel({token:accessToken})
-    
-    blacktoken.save();
+
+    // Clear a cookie named 
+    res.clearCookie('accessToken');
     
     res.status(200).send({msg:"logout successfull!"})
 })
