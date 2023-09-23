@@ -69,7 +69,7 @@ userRoute.post("/login",async(req,res)=>{
 
 userRoute.get("/logout",async(req,res)=>{
 
-    // Clear a cookie named 
+    // Clear a cookie  
     res.clearCookie('accessToken');
     
     res.status(200).send({msg:"logout successfull!"})
