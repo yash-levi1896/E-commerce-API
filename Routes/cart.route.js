@@ -72,7 +72,7 @@ cartRoute.patch("/increasequantity/:itemid",async(req,res)=>{
             data[0].save();
         
         // send the response
-            res.status(201).send({msg:"quantity value increases by one"})
+            res.status(200).send({msg:"quantity value increases by one"})
         
     } catch (error) {
       

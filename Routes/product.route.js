@@ -39,7 +39,7 @@ productRoute.post("/addproduct",async(req,res)=>{
 productRoute.get('/getproduct/:Id',async(req,res)=>{
      try {
         let data=await ProductModel.find({categoryID:req.params.Id}) //finding the product into db through id passed into params
-        res.status(201).send({msg:data})
+        res.status(200).send({msg:data})
      } catch (error) {
         res.status(400).send({msg:error.message});  // capturing error
      }
@@ -52,7 +52,7 @@ productRoute.get('/getproductbyid/:productId',async(req,res)=>{
     const {productId}=req.params  // extracting productId from url params
     try {
        let data=await ProductModel.findOne({_id:productId}) // finding product into db
-       res.status(201).send({msg:data})  // sending the response
+       res.status(200).send({msg:data})  // sending the response
     } catch (error) {
        res.status(400).send({msg:error.message}); // capturing the server error
     }
@@ -64,7 +64,7 @@ productRoute.get('/getproduct',async(req,res)=>{
     
     try {
        let data=await ProductModel.find() // finding all the product in the db
-       res.status(201).send({msg:data})   // sending response
+       res.status(200).send({msg:data})   // sending response
     } catch (error) {
        res.status(400).send({msg:error.message});  // capturing the error
     }
