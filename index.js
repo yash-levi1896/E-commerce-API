@@ -6,6 +6,7 @@ const { categoryRoute } = require('./Routes/category.route');
 const { productRoute } = require('./Routes/product.route');
 const {authentication} = require('./Middleware/authentication');
 const { cartRoute } = require('./Routes/cart.route');
+const { orderRoute } = require('./Routes/order.route');
 require('dotenv').config()
 const app=express()
 
@@ -20,7 +21,7 @@ app.use("/category",categoryRoute);
 app.use("/product",productRoute);
 app.use(authentication);
 app.use("/cart",cartRoute)
-
+app.use("/order",orderRoute)
 
 
 app.listen(process.env.PORT,async()=>{
