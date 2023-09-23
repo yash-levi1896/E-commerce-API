@@ -1,6 +1,5 @@
 const express=require('express');
 const { UserModel } = require('../Models/user.model');
-const {BlacklistModel} = require('../Models/blacklisting.model')
 const bcrypt=require('bcrypt');
 const jwt=require('jsonwebtoken');
 const userRoute=express.Router();
@@ -26,7 +25,7 @@ userRoute.post("/register",async(req,res)=>{
                 res.status(409).send({msg:"user already exist please Login!"})   //response incase email already registered
             }
         } catch (error) {
-            res.status(500).send({msg:"error can't register the user"})
+            res.status(500).send({msg:"error can't register the user"})    // Internal server error
         }
     }else{
         res.status(400).send({msg:'All fileds are required i.e Name,email and password'})  // response if any field is missing. 
@@ -47,7 +46,7 @@ userRoute.post("/login",async(req,res)=>{
                     throw err;
                     if(result){
                         // response if email and password are right.
-                        const token=jwt.sign({'userID':user[0]._id},'masai')   // created a jwt token
+                        const token=jwt.sign({'userID':user[0]._id},process.env.Secret_key)   // created a jwt token
                         res.cookie("accessToken",token,{maxAge:1000*60*60,httpOnly:true,secure:false}) // setting token into the cookie with expire of 1hr
                         res.status(200).send({msg:"sucessfully Login!"})  
                     }else{

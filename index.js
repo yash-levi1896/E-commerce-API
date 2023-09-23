@@ -13,9 +13,6 @@ const app=express()
 app.use(express.json())
 app.use(cookieParser())
 
-app.get('/',(req,res)=>{
-    res.status(200).send("hello")
-})
 app.use("/user",userRoute);
 app.use("/category",categoryRoute);
 app.use("/product",productRoute);
